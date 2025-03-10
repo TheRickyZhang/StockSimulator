@@ -2,9 +2,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./"],
-      "@components/*": ["./client/components/*"],
-      "@pages/*": ["./client/pages/*"]
+      "@/*": ["./src/"],
+      "@components/*": ["./src/client/components/*"],
+      "@context/*": ["./src/client/context/*"],
     },
     
     // Enable latest features

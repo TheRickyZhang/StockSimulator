@@ -3,11 +3,12 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "backend": "bun run server/server.ts",
+    "backend": "bun run src/server/server.ts",
     "frontend": "vite",
     "dev": "concurrently \"bun run backend\" \"bun run frontend\"",
-    "build": "bun build client/index.tsx --outfile=public/index.js",
-    "lint": "eslint . --ext .ts,.tsx"
+    "build": "bun build src/client/index.tsx --outfile=public/index.js",
+    "lint": "eslint . --ext .ts,.tsx",
+    "clean": "rm -rf ./dist && bun pm cache clean"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -31,9 +32,12 @@
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@types/react-router-dom": "^5.3.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "classnames": "^2.5.1",
     "framer-motion": "^12.4.10",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.3.0"
+    "react-router-dom": "^7.3.0",
+    "recharts": "^2.15.1"
   }
 }
