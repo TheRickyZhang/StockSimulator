@@ -15,7 +15,7 @@ const Home: React.FC = () => {
         <div style={{ display: 'flex', gap: '1rem' }}>
           {/* Left side */}
           <div style={{ flex: 2 }}>
-            <Market />
+            <Market userName={userName}/>
           </div>
 
           {/* Right side */}
