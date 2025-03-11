@@ -1,22 +1,25 @@
-# fly.toml app configuration file generated for stockmarketsimulator on 2025-03-10T21:53:54-04:00
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
-
-app = 'stockmarketsimulator'
-primary_region = 'iad'
+app = "stockmarketsimulator"
+primary_region = "iad"
 
 [build]
+  builder = "paketobuildpacks/builder:base"
 
-[http_service]
+[processes]
+  app = "bun run src/server/server.ts"
+
+[[services]]
   internal_port = 3000
-  force_https = true
-  auto_stop_machines = 'stop'
-  auto_start_machines = true
-  min_machines_running = 0
-  processes = ['app']
+  protocol = "tcp"
+
+  [[services.ports]]
+    handlers = ["tls"]
+    port = 443
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
 
 [[vm]]
-  memory = '1gb'
-  cpu_kind = 'shared'
+  memory = "1gb"
+  cpu_kind = "shared"
   cpus = 1
