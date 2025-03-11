@@ -7,7 +7,7 @@ interface MarketProps {
   userName: string | null;
 }
 
-const Market: React.FC<MarketProps> = ({ userName }) => {
+const Market: React.FC = () => {
   const market = useContext(MarketContext);
   if (!market) return <div>Loading...</div>;
 
@@ -26,23 +26,21 @@ const Market: React.FC<MarketProps> = ({ userName }) => {
           gap: '16px'
         }}
       >
-        {userName === "admin" && (
-          <button
-            onClick={() => (running ? stopMarket() : startMarket())}
-            disabled={!wsReady}
-            className={cn('base-button', {
-              'btn-stop': running,
-              'btn-start': !running,
-            })}
-            style={{
-              padding: '8px 16px',
-              fontSize: '16px',
-              cursor: 'pointer'
-            }}
-          >
-            {running ? 'Stop Market' : 'Start Market'}
-          </button>
-        )}
+        <button
+          onClick={() => (running ? stopMarket() : startMarket())}
+          disabled={!wsReady}
+          className={cn('base-button', {
+            'btn-stop': running,
+            'btn-start': !running,
+          })}
+          style={{
+            padding: '8px 16px',
+            fontSize: '16px',
+            cursor: 'pointer'
+          }}
+        >
+          {running ? 'Stop Market' : 'Start Market'}
+        </button>
       </div>
 
       <div
