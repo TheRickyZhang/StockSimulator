@@ -3,35 +3,48 @@ import { MarketContext } from '@context/MarketContext';
 import cn from 'classnames';
 import PriceChart from '@components/PriceChart';
 
-const Market: React.FC = () => {
+interface MarketProps {
+  userName: string | null;
+}
+
+const Market: React.FC<MarketProps> = ({ userName }) => {
   const market = useContext(MarketContext);
   if (!market) return <div>Loading...</div>;
 
-  const { price, updates, running, startMarket, stopMarket, priceHistory } = market;
+  const { wsReady, price, updates, running, startMarket, stopMarket, priceHistory } = market;
 
   return (
     <div>
       <h2>Market Simulator</h2>
       <p>Current Price: {price.toFixed(2)}</p>
       
-      <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <button
-          onClick={running ? stopMarket : startMarket}
-          className={cn('base-button', {
-            'btn-stop': running,
-            'btn-start': !running,
-          })}
-          style={{
-            padding: '8px 16px',
-            fontSize: '16px',
-            cursor: 'pointer'
-          }}
-        >
-          {running ? 'Stop Market' : 'Start Market'}
-        </button>
+      <div
+        style={{
+          marginTop: '16px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '16px'
+        }}
+      >
+        {userName === "admin" && (
+          <button
+            onClick={() => (running ? stopMarket() : startMarket())}
+            disabled={!wsReady}
+            className={cn('base-button', {
+              'btn-stop': running,
+              'btn-start': !running,
+            })}
+            style={{
+              padding: '8px 16px',
+              fontSize: '16px',
+              cursor: 'pointer'
+            }}
+          >
+            {running ? 'Stop Market' : 'Start Market'}
+          </button>
+        )}
       </div>
 
-      {/* Chart Section */}
       <div
         style={{
           border: '2px solid #3498db',
@@ -43,7 +56,6 @@ const Market: React.FC = () => {
         <PriceChart data={priceHistory} />
       </div>
 
-      {/* Debug Log Section */}
       <div
         style={{
           maxHeight: '100px',

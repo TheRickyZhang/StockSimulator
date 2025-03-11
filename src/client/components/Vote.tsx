@@ -1,15 +1,49 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { MarketContext } from '@context/MarketContext';
+import { VOTE_WAIT_TIME } from '@shared/constants';
 
 interface VoteProps {
   userName: string;
 }
 
+interface VoteButtonProps {
+  voteType: "buy" | "sell" | "hold";
+  onClick: () => void;
+  disabled: boolean;
+  children: React.ReactNode;
+}
+
+const VoteButton: React.FC<VoteButtonProps> = ({ onClick, disabled, children }) => {
+  return (
+    <button
+      disabled={disabled}
+      onClick={onClick}
+      style={{
+        opacity: disabled ? 0.5 : 1,
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        padding: '8px 16px',
+        border: '1px solid #ccc',
+        borderRadius: '4px'
+      }}
+    >
+      {children}
+    </button>
+  );
+};
+
+
 const Vote: React.FC<VoteProps> = ({ userName }) => {
   const market = useContext(MarketContext);
   if (!market) return <div>Loading...</div>;
-
   const { voteCounts, sendVote, waitWarning } = market;
+
+  const [disabled, setDisabled] = useState(false);
+  const handleVote = (voteType: "buy" | "sell" | "hold") => {
+    sendVote(voteType, userName);
+    setDisabled(true);
+    setTimeout(() => setDisabled(false), VOTE_WAIT_TIME);
+  };
+  const isButtonDisabled = disabled || !voteCounts || Boolean(waitWarning);
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -31,28 +65,55 @@ const Vote: React.FC<VoteProps> = ({ userName }) => {
             justifyContent: 'center',
           }}
         >
-          <button
-            style={{ marginRight: '10px' }}
-            onClick={() => sendVote('buy', userName)}
+          <VoteButton
+            voteType="buy"
+            disabled={isButtonDisabled}
+            onClick={() => handleVote('buy')}
           >
             Buy
-          </button>
-          <button
-            style={{ marginRight: '10px' }}
-            onClick={() => sendVote('sell', userName)}
+          </VoteButton>
+          <VoteButton
+            voteType="sell"
+            disabled={isButtonDisabled}
+            onClick={() => handleVote('sell')}
           >
             Sell
-          </button>
-          <button onClick={() => sendVote('hold', userName)}>Hold</button>
+          </VoteButton>
+          <VoteButton
+            voteType="hold"
+            disabled={isButtonDisabled}
+            onClick={() => handleVote('hold')}
+          >
+            Hold
+          </VoteButton>
         </div>
         {waitWarning && (
           <p style={{ color: 'red', marginTop: '8px' }}>{waitWarning}</p>
         )}
-        <div style={{ marginTop: '16px' }}>
-          <p style={{ margin: 100 }}>Votes:</p>
-          <p style={{ margin: 100 }}>Buy: {voteCounts.buy}</p>
-          <p style={{ margin: 100 }}>Sell: {voteCounts.sell}</p>
-          <p style={{ margin: 0 }}>Hold: {voteCounts.hold}</p>
+        <div
+          style={{
+            marginTop: '16px',
+            padding: '16px',
+            border: '1px solid #ccc',
+            borderRadius: '8px',
+            backgroundColor: '#f9f9f9'
+          }}
+        >
+          <h4 style={{ marginBottom: '12px', textAlign: 'center' }}>Votes</h4>
+          <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+            <div style={{ textAlign: 'center' }}>
+              <p style={{ fontWeight: 'bold' }}>Buy</p>
+              <p>{voteCounts.buy}</p>
+            </div>
+            <div style={{ textAlign: 'center' }}>
+              <p style={{ fontWeight: 'bold' }}>Sell</p>
+              <p>{voteCounts.sell}</p>
+            </div>
+            <div style={{ textAlign: 'center' }}>
+              <p style={{ fontWeight: 'bold' }}>Hold</p>
+              <p>{voteCounts.hold}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

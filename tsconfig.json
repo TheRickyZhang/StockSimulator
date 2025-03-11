@@ -5,6 +5,7 @@
       "@/*": ["./src/"],
       "@components/*": ["./src/client/components/*"],
       "@context/*": ["./src/client/context/*"],
+      "@shared/*": ["./src/shared/*"],
     },
     
     // Enable latest features
