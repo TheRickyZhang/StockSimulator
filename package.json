@@ -6,7 +6,7 @@
     "backend": "bun run src/server/server.ts",
     "frontend": "vite",
     "dev": "concurrently \"bun run backend\" \"bun run frontend\"",
-    "build": "bun build src/client/index.tsx --outdir=dist --splitting",
+    "build": "vite build",
     "lint": "eslint . --ext .ts,.tsx",
     "clean": "rm -rf ./dist && bun pm cache clean"
   },
