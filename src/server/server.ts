@@ -11,9 +11,12 @@ interface dataInterface {
 interface VoteMessage {
     vote: "buy" | "sell" | "hold";
   }
-  
+
+const PORT = Number(process.env.PORT) || 8000; // Ensure PORT is a number
+
 const server = serve({
-  port: 8000,
+  port: PORT,
+  hostname: '0.0.0.0',
   fetch(req, server) {
     // Extract userName from URL params; default to "Anonymous"
     const url = new URL(req.url);
@@ -86,4 +89,4 @@ setInterval(() => {
     voteCounts = { buy: 0, sell: 0, hold: 0 };
   }, UPDATE_TIME);
   
-console.log(`Listening on ws://localhost:${server.port}`);
+  console.log(`WebSocket server running on ws://0.0.0.0:${PORT}`);
