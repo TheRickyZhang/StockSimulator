@@ -93,10 +93,10 @@ useEffect(() => {
       setWs(null);
     }
     
-    const wsUrl = userName 
-      ? `ws://localhost:8000?userName=${encodeURIComponent(userName)}`
-      : `ws://localhost:8000`;
-  
+    const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+    const host = window.location.host;
+    const fallbackUrl = `${protocol}${host}`;
+    const wsUrl = import.meta.env.VITE_WEBSOCKET_URL || fallbackUrl;
     const newWs = new WebSocket(wsUrl);
   
     newWs.onopen = () => {
