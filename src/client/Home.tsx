@@ -1,6 +1,4 @@
-// Home.tsx
 import React, { useState } from 'react';
-import { Container, Text } from '@mantine/core';
 import SignIn from '@components/SignIn';
 import Market from '@components/Market';
 import Portfolio from '@components/Portfolio';
@@ -11,7 +9,7 @@ const Home: React.FC = () => {
   const [userName, setUserName] = useState<string | null>(null);
 
   return (
-    <Container>
+    <div style={{ padding: '16px' }}>
       <MarketProvider userName={userName}>
         {/* Flex container: left = Market, right = Portfolio + Vote/SignIn */}
         <div style={{ display: 'flex', gap: '1rem' }}>
@@ -25,7 +23,7 @@ const Home: React.FC = () => {
             <Portfolio />
             {userName ? (
               <>
-                <Text mt="md">Welcome, {userName}!</Text>
+                <p style={{ marginTop: '16px' }}>Welcome, {userName}!</p>
                 <Vote userName={userName} />
               </>
             ) : (
@@ -34,7 +32,7 @@ const Home: React.FC = () => {
           </div>
         </div>
       </MarketProvider>
-    </Container>
+    </div>
   );
 };
 

@@ -1,0 +1,12 @@
+/* src/client/index.css */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: #333;
+  background-color: #f8f9fa;
+  font-family: Arial, sans-serif;
+}

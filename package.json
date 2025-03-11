@@ -6,7 +6,7 @@
     "backend": "bun run src/server/server.ts",
     "frontend": "vite",
     "dev": "concurrently \"bun run backend\" \"bun run frontend\"",
-    "build": "bun build src/client/index.tsx --outfile=public/index.js",
+    "build": "bun build src/client/index.tsx --outdir=public --splitting",
     "lint": "eslint . --ext .ts,.tsx",
     "clean": "rm -rf ./dist && bun pm cache clean"
   },
@@ -27,8 +27,6 @@
     "@chakra-ui/react": "^3.9.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@mantine/core": "^7.17.1",
-    "@mantine/hooks": "^7.17.1",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@types/react-router-dom": "^5.3.3",
