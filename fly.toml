@@ -2,12 +2,14 @@ app = "stockmarketsimulator"
 primary_region = "iad"
 
 [build]
-  builder = "paketobuildpacks/builder:base"
+  dockerfile = "Dockerfile"  # Tell Fly to use your custom Dockerfile
 
 [processes]
   app = "bun run src/server/server.ts"
 
 [[services]]
+  # Ties the 'app' process to port 3000
+  processes = ["app"]
   internal_port = 3000
   protocol = "tcp"
 
