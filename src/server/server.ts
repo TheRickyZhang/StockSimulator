@@ -12,7 +12,7 @@ interface VoteMessage {
     vote: "buy" | "sell" | "hold";
   }
 
-const PORT = Number(process.env.PORT) || 8000; // Ensure PORT is a number
+const PORT = Number(process.env.PORT) || 3000; // Ensure PORT is a number
 
 const server = serve({
   port: PORT,

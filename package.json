@@ -11,6 +11,7 @@
     "clean": "rm -rf ./dist && bun pm cache clean"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.7.8",
     "@types/bun": "latest",
     "@typescript-eslint/eslint-plugin": "^8.26.0",
     "@typescript-eslint/parser": "^8.26.0",
