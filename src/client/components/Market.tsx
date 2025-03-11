@@ -1,5 +1,6 @@
+// Market.tsx
 import React, { useContext } from 'react';
-import { Container, Stack, Button, Title, Paper, Text } from '@mantine/core';
+import { Stack, Button, Title, Paper, Text } from '@mantine/core';
 import { MarketContext } from '@context/MarketContext';
 import cn from 'classnames';
 import PriceChart from '@components/PriceChart';
@@ -11,7 +12,7 @@ const Market: React.FC = () => {
   const { price, updates, running, startMarket, stopMarket, priceHistory } = market;
 
   return (
-    <Container>
+    <>
       <Title order={2}>Market Simulator</Title>
       <Text>Current Price: {price.toFixed(2)}</Text>
       <Stack mt="md">
@@ -25,22 +26,29 @@ const Market: React.FC = () => {
           {running ? 'Stop Market' : 'Start Market'}
         </Button>
       </Stack>
-      
+
       {/* Chart Section */}
       <Paper withBorder p="md" radius="md" mt="md">
         <PriceChart data={priceHistory} />
       </Paper>
-      
+
       {/* Debug Log Section */}
-      <Paper withBorder p="md" radius="md" mt="md">
-        <Title order={4}>Debug Logs</Title>
+      <Paper
+        style={{
+          maxHeight: '100px',
+          overflowY: 'auto',
+          border: '1px solid rgb(0, 0, 0)',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          padding: '16px',
+        }}
+      >
         {updates.length === 0 ? (
           <Text>No updates yet...</Text>
         ) : (
-          updates.map((update, idx) => <Text key={idx}>{update}</Text>)
+          updates.slice(-4).map((update, idx) => <Text key={idx}>{update}</Text>)
         )}
       </Paper>
-    </Container>
+    </>
   );
 };
 

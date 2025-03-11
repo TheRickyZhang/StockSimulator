@@ -51,8 +51,10 @@ const server = serve({
 
           console.log(`Vote count updated:`, voteCounts);
         } else {
-          console.log("Please wait before voting again");
-        }
+            const remaining = VOTE_WAIT_TIME - (Date.now() - data.previousVoteTime.getTime());
+            ws.send(JSON.stringify({ waitTimeLeft: remaining }));
+            console.log("Please wait before voting again");
+          }
       } catch (error) {
         console.error("Error processing message:", error);
       }

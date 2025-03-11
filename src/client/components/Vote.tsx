@@ -1,6 +1,5 @@
-// Vote.tsx
 import React, { useContext } from 'react';
-import { Stack, Button, Title, Container, Text } from '@mantine/core';
+import { Stack, Button, Title, Text } from '@mantine/core';
 import { MarketContext } from '@context/MarketContext';
 
 interface VoteProps {
@@ -11,7 +10,8 @@ const Vote: React.FC<VoteProps> = ({ userName }) => {
   const market = useContext(MarketContext);
   if (!market) return <div>Loading...</div>;
 
-  const { voteCounts, sendVote } = market;
+  const { voteCounts, sendVote, waitWarning } = market;
+  console.log("waitWarning", waitWarning);
 
   return (
     <>
@@ -21,12 +21,13 @@ const Vote: React.FC<VoteProps> = ({ userName }) => {
         <Button onClick={() => sendVote("sell", userName)}>Sell</Button>
         <Button onClick={() => sendVote("hold", userName)}>Hold</Button>
       </Stack>
-      <Container>
-        <Text>Votes:</Text>
-        <Text>Buy: {voteCounts.buy}</Text>
-        <Text>Sell: {voteCounts.sell}</Text>
-        <Text>Hold: {voteCounts.hold}</Text>
-      </Container>
+      {waitWarning && (
+        <Text color="red" mt="sm">{waitWarning}</Text>
+      )}
+      <Text mt="md">Votes:</Text>
+      <Text>Buy: {voteCounts.buy}</Text>
+      <Text>Sell: {voteCounts.sell}</Text>
+      <Text>Hold: {voteCounts.hold}</Text>
     </>
   );
 };

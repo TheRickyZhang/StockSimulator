@@ -1,6 +1,7 @@
+// Portfolio.tsx
 import React, { useContext } from 'react';
-import { MarketContext } from '@context/MarketContext';
 import { Paper, Title, Text } from '@mantine/core';
+import { MarketContext } from '@context/MarketContext';
 
 const Portfolio: React.FC = () => {
   const market = useContext(MarketContext);
@@ -9,14 +10,10 @@ const Portfolio: React.FC = () => {
   const { cash, assets, price } = market;
   const netWorth = cash + assets * price;
 
-  console.log("cash", cash);
-  console.log("assets", assets);
-  console.log("price", price);
-
   return (
-    <Paper withBorder p="md" radius="md">
+    <Paper withBorder p="md" radius="md" mt="md">
       <Title order={4}>Portfolio</Title>
-      <Text>Cash: ${cash?.toFixed(2)}</Text>
+      <Text>Cash: ${cash.toFixed(2)}</Text>
       <Text>Assets: {assets}</Text>
       <Text>Net Worth: ${netWorth.toFixed(2)}</Text>
     </Paper>

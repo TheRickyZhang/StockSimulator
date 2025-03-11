@@ -20,6 +20,7 @@ interface MarketContextType {
   voteCounts: VoteCounts;
   cash: number;
   assets: number;
+  waitWarning: string | null;
   startMarket: () => void;
   stopMarket: () => void;
   sendVote: (action: "buy" | "sell" | "hold", userName?: string) => void;
@@ -40,6 +41,7 @@ export const MarketProvider: React.FC<MarketProviderProps> = ({ userName, childr
     const [ws, setWs] = useState<WebSocket | null>(null);
     const [message, setMessage] = useState("");
     const [priceHistory, setPriceHistory] = useState<PricePoint[]>([]);
+    const [waitWarning, setWaitWarning] = useState<string | null>(null);
     const [voteCounts, setVoteCounts] = useState<VoteCounts>({
         buy: 0,
         sell: 0,
@@ -140,7 +142,13 @@ useEffect(() => {
             console.log("Expected voteCOunts", data.voteCounts);
           setVoteCounts(data.voteCounts);
           setUpdates(prev => [...prev, `Updated Vote Counts: ${JSON.stringify(data.voteCounts)}`]);
-        } else {
+        } else if ('waitTimeLeft' in data) {
+            console.log('waitTimeLeft received:', data.waitTimeLeft);
+            const seconds = (data.waitTimeLeft / 1000).toFixed(1);
+            setWaitWarning(`Please wait ${seconds} seconds before voting again.`);
+            setTimeout(() => setWaitWarning(null), 3000);
+          }
+          else {
           console.log("Invalid message received");
         }
       } catch (error) {
@@ -185,6 +193,7 @@ useEffect(() => {
       voteCounts,
       cash,
       assets,
+      waitWarning,
       startMarket,
       stopMarket,
       sendVote,
