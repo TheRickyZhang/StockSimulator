@@ -11,7 +11,6 @@ const Home: React.FC = () => {
   return (
     <div style={{ padding: '16px' }}>
       <MarketProvider userName={userName}>
-        {/* Flex container: left = Market, right = Portfolio + Vote/SignIn */}
         <div style={{ display: 'flex', gap: '1rem' }}>
           {/* Left side */}
           <div style={{ flex: 2 }}>

@@ -1,4 +1,4 @@
-import { serve, type ServerWebSocket } from "bun";
+import { serve } from "bun";
 
 import {
   VOTE_WAIT_TIME,
@@ -59,7 +59,7 @@ const server = serve({
       const data = ws.data as dataInterface;
       console.log(`${data.name} has connected`);
       ws.subscribe("stock-updates");
-      // Immediately send the current market state including running flag
+      // Immediately send the current market state + running
       server.publish(
         "stock-updates",
         JSON.stringify({
@@ -73,7 +73,6 @@ const server = serve({
     message(ws, message) {
       try {
         const parsed = JSON.parse(String(message));
-        // Handle start/stop commands from client
         if (parsed.type === "command") {
           const { command, initialPrice } = parsed as CommandMessage;
           if (command === "start") {
@@ -112,7 +111,6 @@ const server = serve({
           }
           return;
         }
-        // Process vote messages as before.
         if (parsed.vote) {
           const data = ws.data as dataInterface;
           console.log("Vote message received:", parsed);
